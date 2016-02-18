@@ -25,9 +25,9 @@ and tear-down by using annotations `@Before` and `@After` so they are to
 be run before and after every test methods. However, sometimes you need
 some test method not to run between the two first ones.
 
-For example, if you use a mock controller and call `control.verify` in
+For example, if you use a mock controller and call `control::verify` in
 the method to be run after each test, a test which doesn't use this
-controller (hence doesn't invoke `control.replay()`) will
+controller (hence doesn't invoke `control::replay`) will
 fails. Sometimes it's more convenient not to change all other tests for
 one which is a bit different but simply not to invoke the faultu method
 around it.
