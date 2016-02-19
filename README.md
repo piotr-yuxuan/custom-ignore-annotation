@@ -20,22 +20,32 @@ Content of this repository:
 
 ## The problem
 
-When you write Java unit tests, you may annotate some methods as set-up
-and tear-down by using annotations `@Before` and `@After` so they are to
-be run before and after every test methods. However, sometimes you need
-some test method not to run between the two first ones.
+When you write Java unit tests, you may annotate some methods with
+`@Before` and `@After` so they are to be run before and after every test
+methods. Let's say these are wrapping methods.
 
-For example, if you use a mock controller and call `control::verify` in
-the method to be run after each test, a test which doesn't use this
-controller (hence doesn't invoke `control::replay`) will
-fails. Sometimes it's more convenient not to change all other tests for
-one which is a bit different but simply not to invoke the faultu method
-around it.
+Sometimes you need some test method not to run between these wrapping
+methods. For example, if you use a mock controller and call
+`control::verify` in the method to be run after each test, a test which
+doesn't use this controller (hence doesn't invoke `control::replay`)
+will fails. Sometimes it's more convenient not to change all other tests
+for one which is a bit different but simply not to invoke the faultu
+method around it.
+
+The easiest solution is to split tests in different files and set up the
+wrapping methods you need for each of them. However, some project
+architectures gather all tests for a given Java file `AwesomeClass.java`
+into a single file `AwesomeClassTest.java`. Either you do some trick to
+deal with the controller, either you just ignore the failing wrapping
+functions for this very test method.
 
 ## Simple proposal for a solution
 
 This repository aims at suggesting a simple way to ignore set-up and
-tear-down methods for some tests. It is very easy to use:
+tear-down methods for some tests. A more thoroughful example is to be
+found in
+[`ExampleTest.java`](https://github.com/piotr-yuxuan/custom-ignore-annotation/blob/master/src/main/java/org/piotryuxuan/customignoreannotation/example/ExampleTest.java).
+It is very easy to use:
 
 ```Java
 @Test
@@ -49,8 +59,6 @@ public void test_beforeIsIgnored() throws Exception {
     System.out.println("Body of the test");
 }
 ```
-
-A more thoroughful example is to be found in `ExampleTest.java`
 
 ## Technical details
 
